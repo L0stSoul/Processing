@@ -72,7 +72,7 @@ class Stick
   
   void display() {
     stroke(255,0, 0);
-    strokeWeight(4);
+    strokeWeight(5);
     point(loc.x, loc.y, loc.z);
         
     stroke(0);

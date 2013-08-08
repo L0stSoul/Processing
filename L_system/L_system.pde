@@ -31,7 +31,7 @@ void draw() {
   sticks.clear();
   
   sticks.add(new Stick(
-    new Vec3D(0, 0, 0), new Vec3D(20, 0, 0), gen, "A"
+    new Vec3D(0, 0, 0), new Vec3D(40, 0, 0), gen, "A"
   ));
   
   background(255);
