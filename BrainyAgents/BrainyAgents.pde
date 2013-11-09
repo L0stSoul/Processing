@@ -65,11 +65,13 @@ void draw() {
     background(255);
     
     strokeWeight(5);
-    g.line(top); 
+    stroke(0);
+    /*g.line(top); 
     g.line(right);
     g.line(bottom);
     g.line(left); 
     strokeWeight(1);
+    */
     
     for(Walker walker : walkers ) {
       walker.drawPath();   

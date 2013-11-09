@@ -2,12 +2,12 @@ import peasy.*;
 import toxi.geom.*;
 import toxi.processing.*;
 
-int maxWalkers = 100;
+int maxWalkers = 500;
 int currentWalkerIndex = 0;
 Walker[] walkers = new Walker[maxWalkers];
 
 int maxSteps = 50;
-float defaultStepSize = 50;
+float defaultStepSize = 20;
 int fieldWidth = 500;
 int fieldHeight = 500;
 int strokeWeight = 10;
@@ -15,16 +15,17 @@ int strokeWeight = 10;
 class Walker {
 
   Vec3D lastPoint;
-  
+  Vec3D velocity;
+    
   Line3D[] lines;
   
   int len = 0;
-  float angle = 0;
+
 
   Walker(Vec3D _pos) {
     lines = new Line3D[maxSteps];
     lastPoint = _pos;
-    angle = random(TWO_PI);
+    velocity = Vec3D.randomVector().scale(1, 1, 0);
     walkers[currentWalkerIndex++] = this;
   }
 
@@ -36,10 +37,8 @@ class Walker {
     if (stepSize <= 1) return;
     if (len == maxSteps) return; 
     
-    Vec3D nextPoint = new Vec3D(
-    (int)(lastPoint.x + cos(angle) * stepSize), 
-    (int)(lastPoint.y + sin(angle) * stepSize), 
-    lastPoint.z);
+    Vec3D nextPoint = lastPoint.add(velocity.scale(stepSize));
+    println(velocity);
     Line3D line = new Line3D(lastPoint, nextPoint);
     
     Vec3D point = getIntersectionPoint(line, top);
@@ -63,7 +62,7 @@ class Walker {
        line = new Line3D(lastPoint, point);
        lastPoint = point;
        lines[len++] = line;
-       angle = getReflection(angle, line, collisionLine, stepSize);
+       velocity = getReflection(velocity, line, collisionLine, stepSize);
        walk(stepSize - line.getLength());  
     }
     
@@ -71,7 +70,7 @@ class Walker {
 
   void drawPath() {
     strokeWeight(1);
-    stroke(0);
+    stroke(255,0,0);
     for (int i = 0; i < len; ++i) {
       g.line(lines[i]);
     }
@@ -79,8 +78,8 @@ class Walker {
 }
 
 
-float getReflection(float angle, Line3D line, Line3D border, float stepSize) {
-  return HALF_PI;
+Vec3D getReflection(Vec3D velocity, Line3D line, Line3D border, float stepSize) {
+  return new Vec3D(0, -1, 0);
   /*Vec3D normal = border.getNormal();
    Vec3D incidence = line.b.scale(-1).getNormalized() ;
    
